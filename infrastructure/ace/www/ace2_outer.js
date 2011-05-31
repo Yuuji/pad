@@ -68,6 +68,8 @@ function Ace2Editor() {
   editor.getFrame = function() { return info.frame || null; };
   editor.focus = pendingInit(function() { info.ace_focus(); });
   editor.setEditable = pendingInit(function(newVal) { info.ace_setEditable(newVal); });
+  editor.setSpellcheck = pendingInit(function(newVal) { info.ace_setSpellcheck(newVal); });
+  editor.toggleSpellcheck = pendingInit(function(newVal) { info.ace_toogleSpellcheck(); });
   editor.getFormattedCode = function() { return info.ace_getFormattedCode(); };
   editor.setOnKeyPress = pendingInit(function (handler) { info.ace_setOnKeyPress(handler); });
   editor.setOnKeyDown = pendingInit(function (handler) { info.ace_setOnKeyDown(handler); });

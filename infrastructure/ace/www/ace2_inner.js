@@ -620,6 +620,24 @@ function OUTER(gscope) {
     }
     setClassPresence(root, "static", ! isEditable);
   }
+  
+  function getSpellcheck() {
+    return root.spellcheck;
+  }
+  
+  function setSpellcheck(newVal) {
+    try {
+      root.spellcheck = (newVal==true ? true : false);
+      return true;
+    }
+    catch (e) {
+      return false;
+    }
+  }
+  
+  function toggleSpellcheck() {
+    setSpellcheck((getSpellcheck() == true ? false : true));
+  }
 
   function enforceEditability() {
     setEditable(isEditable);
@@ -799,6 +817,8 @@ function OUTER(gscope) {
   editorInfo.ace_dispose = dispose;
   editorInfo.ace_getFormattedCode = getFormattedCode;
   editorInfo.ace_setEditable = setEditable;
+  editorInfo.ace_setSpellcheck = setSpellcheck;
+  editorInfo.ace_toggleSpellcheck = toggleSpellcheck;
   editorInfo.ace_execCommand = execCommand;
   editorInfo.ace_replaceRange = replaceRange;
 
