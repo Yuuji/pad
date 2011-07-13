@@ -122,7 +122,7 @@ function onClientMessage(pad, senderUserInfo, msg) {
   else if (msg.type == "padpassword") {
     if (padutils.isProPadId(pad.getId())) {
       pro_padmeta.accessProPad(pad.getId(), function(propad) {
-        propad.setPassword(msg.password || null);
+        propad.setPassword(msg.password);
       });
     }
   }

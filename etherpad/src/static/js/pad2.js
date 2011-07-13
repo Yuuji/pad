@@ -94,7 +94,7 @@ var pad = {
     }
     paddocbar.init({isTitleEditable: pad.getIsProPad(),
                     initialTitle:clientVars.initialTitle,
-                    initialPassword:clientVars.initialPassword,
+                    initialPasswordIsSet: clientVars.initialPasswordIsSet,
                     guestPolicy: pad.padOptions.guestPolicy
                    });
     padimpexp.init();
@@ -230,9 +230,9 @@ var pad = {
     else if (msg.type == 'padtitle') {
       paddocbar.changeTitle(msg.title);
     }
-    else if (msg.type == 'padpassword') {
-      paddocbar.changePassword(msg.password);
-    }
+//    else if (msg.type == 'padpassword') {
+//      paddocbar.changePassword(msg.password);
+//    }
     else if (msg.type == 'newRevisionList') {
       padsavedrevs.newRevisionList(msg.revisionList);
     }

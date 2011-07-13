@@ -614,7 +614,7 @@ function getRoomCallbacks(roomName) {
           sendMessage(connectionId, {type: "CLIENT_MESSAGE", payload: {
             type: "padtitle", title: propad.getDisplayTitle() } });
           sendMessage(connectionId, {type: "CLIENT_MESSAGE", payload: {
-            type: "padpassword", password: propad.getPassword() } });
+            type: "padpassword", password: propad.getPasswordIsSet() } });
         });
       }
 

@@ -56,6 +56,7 @@ import("etherpad.collab.readonly_server");
 
 import("dispatch.{Dispatcher,PrefixMatcher,DirMatcher,forward}");
 
+jimport("org.mindrot.BCrypt");
 jimport("java.lang.System.out.println");
 
 var DISABLE_PAD_CREATION = false;
@@ -326,7 +327,7 @@ function render_pad(localPadId) {
     if (isProDomainRequest()) {
       pro_padmeta.accessProPadLocal(localPadId, function(propad) {
         proTitle = propad.getDisplayTitle();
-        initialPassword = propad.getPassword();
+        initialPasswordIsSet = propad.getPasswordIsSet();
       });
     }
     documentBarTitle = (proTitle || "Public Pad");
@@ -351,7 +352,7 @@ function render_pad(localPadId) {
       numConnectedUsers: collab_server.getNumConnections(pad),
       isProPad: isPro,
       initialTitle: documentBarTitle,
-      initialPassword: initialPassword,
+      initialPasswordIsSet: initialPasswordIsSet,
       initialOptions: pad.getPadOptionsObj(),
       userIsGuest: padusers.isGuest(userId),
       userId: userId,
@@ -727,7 +728,17 @@ function render_auth_post() {
   var currentPassword = pro_padmeta.accessProPadLocal(localPadId, function(propad) {
     return propad.getPassword();
   });
-  if (request.params.password == currentPassword) {
+  
+  // for old version
+  
+  check = false;
+  try {
+    var check = BCrypt.checkpw(request.params.password, currentPassword);
+  } catch(err) {
+    var check = false;
+  }
+  
+  if (check) {
     var globalPadId = padutils.getGlobalPadId(localPadId);
     getSession().padPasswordAuth[globalPadId] = true;
   } else {

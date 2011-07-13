@@ -79,10 +79,8 @@ var paddocbar = (function() {
   var panels;
 
   function changePassword(newPass) {
-    if ((newPass || null) != (self.password || null)) {
-      self.password = (newPass || null);
-      pad.notifyChangePassword(newPass);
-    }
+    self.passwordIsSet = (newPass != "");
+    pad.notifyChangePassword(newPass);
     self.renderPassword();
   }
 
@@ -100,7 +98,7 @@ var paddocbar = (function() {
 
       isTitleEditable = opts.isTitleEditable;
       self.title = opts.initialTitle;
-      self.password = opts.initialPassword;
+      self.passwordIsSet = opts.initialPasswordIsSet;
 
       $("#docbarimpexp").click(function() {self.togglePanel("impexp");});
       $("#docbarsavedrevs").click(function() {self.togglePanel("savedrevs");});
@@ -141,7 +139,7 @@ var paddocbar = (function() {
     initPassword: function() {
       self.renderPassword();
       $("#password-clearlink").click(function() {
-        changePassword(null);
+        changePassword("");
       });
       $("#password-setlink, #password-display").click(function() {
         self.enterPassword();
@@ -162,7 +160,7 @@ var paddocbar = (function() {
     },
     enterPassword: function() {
       isEditingPassword = true;
-      $("#security-passwordedit").val(self.password || '');
+      $("#security-passwordedit").val('');
       self.renderPassword();
       $("#security-passwordedit").focus().select();
     },
@@ -181,10 +179,10 @@ var paddocbar = (function() {
         $("#password-inedit").show();
       }
       else {
-        $("#password-nonedit").toggleClass('nopassword', ! self.password);
-        $("#password-setlink").html(self.password ? "Change..." : "Set...");
-        if (self.password) {
-          $("#password-display").html(self.password.replace(/./g, '&#8226;'));
+        $("#password-nonedit").toggleClass('nopassword', ! self.passwordIsSet);
+        $("#password-setlink").html(self.passwordIsSet ? "Change..." : "Set...");
+        if (self.passwordIsSet) {
+          $("#password-display").html("Set");
         }
         else {
           $("#password-display").html("None");
@@ -282,10 +280,10 @@ var paddocbar = (function() {
     },
     changePassword: function(newPass) {
       if (newPass) {
-        self.password = newPass;
+        self.passwordIsSet = true;
       }
       else {
-        self.password = null;
+        self.passwordIsSet = false;
       }
       self.renderPassword();
     },

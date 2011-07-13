@@ -21,9 +21,17 @@ import("sync");
 import("etherpad.pad.padutils");
 import("etherpad.pro.pro_pad_db");
 
+jimport("org.mindrot.BCrypt");
+
 function _doWithProPadLock(domainId, localPadId, func) {
   var lockName = ["pro-pad", domainId, localPadId].join("/");
   return sync.doWithStringLock(lockName, func);
+}
+
+function _computePasswordHash(p) {
+  var pwh;
+  pwh = BCrypt.hashpw(p, BCrypt.gensalt(10));
+  return pwh;
 }
 
 function accessProPad(globalPadId, fn) {
@@ -53,12 +61,23 @@ function accessProPad(globalPadId, fn) {
         padRecord.isDeleted = true;
         isDirty = true;
       },
-      getPassword: function() { return padRecord.password; },
+      getPassword: function() {
+        // check if password is old plain text
+        if(padRecord.password.charAt(0)!='$')
+        {
+            this.setPassword(padRecord.password);
+        }
+        
+        return padRecord.password;
+      },
+      getPasswordIsSet: function() { return (padRecord.password!=null); },
       setPassword: function(newPass) {
         if (newPass == "") {
-          newPass = null;
+          padRecord.password = null;
         }
-        padRecord.password = newPass;
+        else {
+            padRecord.password =_computePasswordHash(newPass);
+        }
         isDirty = true;
       },
       isArchived: function() { return padRecord.isArchived; },
