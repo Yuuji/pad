@@ -84,8 +84,6 @@ var padeditbar = (function(){
 	  padeditor.ace.callWithAce(function (ace) {
 	    if (cmd == 'bold' || cmd == 'italic' || cmd == 'underline' || cmd == 'strikethrough')
 	      ace.ace_toggleAttributeOnSelection(cmd);
-	    else if (cmd == 'spellcheck')
-	      ace.ace_toggleSpellcheck();
             else if (cmd == 'undo' || cmd == 'redo') 
 	      ace.ace_doUndoRedo(cmd);
             else if (cmd == 'insertunorderedlist') 
