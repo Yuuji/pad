@@ -705,7 +705,7 @@ function render_auth_get() {
                   method: "post"},
               LABEL(B("Please enter the password required to access this pad:")),
               BR(), BR(),
-              INPUT({type: "text", name: "password"}), INPUT({type: "submit", value: "Submit"})
+              INPUT({type: "password", name: "password"}), INPUT({type: "submit", value: "Submit"})
             /*DIV(BR(), "Or ", A({href: '/ep/account/sign-in'}, "sign in"), ".")*/
             )),
           DIV({style: "padding: 0 1em;"},
