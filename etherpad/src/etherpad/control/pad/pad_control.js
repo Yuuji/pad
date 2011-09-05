@@ -293,7 +293,7 @@ function _checkIfDeleted(pad) {
 }
 
 function render_pad(localPadId) {
-  var proTitle = null, documentBarTitle, initialPassword = null;
+  var proTitle = null, documentBarTitle, initialPasswordIsSet = null;
   var isPro = isProDomainRequest();
   var userId = padusers.getUserId();
 
