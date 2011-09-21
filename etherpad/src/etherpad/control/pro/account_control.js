@@ -303,8 +303,8 @@ function render_request_account_post() {
             } catch (ex) {
                 _redirOnError("Warning: unable to send request account email!");
             }
-            _redirOnNotice("Account requested! You will get an email on success!");
         });
+        _redirOnNotice("Account requested! You will get an email on success!");
     }
     else
     {
