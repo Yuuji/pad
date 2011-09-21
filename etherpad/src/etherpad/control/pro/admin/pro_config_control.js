@@ -47,6 +47,8 @@ function render_main_post() {
   pro_config.setConfigVal('siteName', request.params.siteName);
   pro_config.setConfigVal('alwaysHttps', !!request.params.alwaysHttps);
   pro_config.setConfigVal('openByGuestsAllowed', !!request.params.openByGuestsAllowed);
+  pro_config.setConfigVal('newPadsStatus', request.params.newPadsStatus);
+  pro_config.setConfigVal('newPadsStatusDeviation', request.params.newPadsStatusDeviation);
   pro_config.setConfigVal('defaultPadText', request.params.defaultPadText);
   getSession().proConfigMessage = "New settings applied.";
   response.redirect(request.path);

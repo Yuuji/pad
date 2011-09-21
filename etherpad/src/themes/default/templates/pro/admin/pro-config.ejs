@@ -43,6 +43,25 @@ limitations under the License. */ %>
              <%= config.openByGuestsAllowed ? 'checked="on"' : '' %> />
     </td>
   </tr>
+  
+  <tr>
+    <th valign="top">Default status of new pads:</th>
+    <td valign="top">
+      <select id="newPadsStatus" name="newPadsStatus">
+        <option value="private" <%= config.newPadsStatus == 'public' ? '' : 'selected' %>>Private</option>
+        <option value="public" <%= config.newPadsStatus == 'public' ? 'selected' : '' %>>Public</option>
+      </select>
+    </td>
+  </tr>
+  
+  <tr>
+    <th valign="top">Regex based deviation of default status:</th>
+    <td valign="top">
+      <span style="color: red">IMPORTANT: Use this only if you really know what you are doing!</span><br /><br />One regex per line<br /><br />
+      <textarea name="newPadsStatusDeviation" id="newPadsStatusDeviation"><%=
+      config.newPadsStatusDeviation %></textarea>
+    </td>
+  </tr>
 
   <tr>
     <th valign="top">Default pad text:</th>

@@ -34,6 +34,8 @@ function _getDefaultConfig() {
     siteName: _guessSiteName(),
     alwaysHttps: false,
     openByGuestsAllowed: false,
+    newPadsStatus: false,
+    newPadsStatusDeviation: '',
     defaultPadText: renderTemplateAsString("misc/pad_default.ejs")
   };
 }

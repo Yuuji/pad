@@ -63,7 +63,7 @@ function accessProPad(globalPadId, fn) {
       },
       getPassword: function() {
         // check if password is old plain text
-        if(padRecord.password.charAt(0)!='$')
+        if(padRecord.password && padRecord.password.charAt(0)!='$')
         {
             this.setPassword(padRecord.password);
         }

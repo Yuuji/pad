@@ -20,6 +20,7 @@ import("sqlbase.sqlcommon");
 import("sqlbase.sqlobj");
 import("timer");
 import("sync");
+import("stringutils.*");
 
 import("etherpad.collab.ace.easysync2.{Changeset,AttribPool}");
 import("etherpad.log");
@@ -33,6 +34,8 @@ import("etherpad.pro.pro_config");
 import("etherpad.collab.collab_server");
 import("cache_utils.syncedWithCache");
 import("etherpad.admin.plugins");
+
+import("etherpad.sessions.getSession");
 
 jimport("net.appjet.common.util.LimitedSizeMapping");
 
@@ -380,8 +383,37 @@ function accessPadGlobal(padId, padFunc, rwMode) {
           if (! data.padOptions) {
             data.padOptions = {};
           }
-          if ((! data.padOptions.guestPolicy) ||
-            (data.padOptions.guestPolicy == 'ask')) {
+
+          if (! data.padOptions.guestPolicy && pro_utils.isProDomainRequest()) {
+            if (!getSession().proAccount && pro_config.getConfig().openByGuestsAllowed) {
+                data.padOptions.guestPolicy = 'allow';
+            } else {
+                var newStatus = 'deny';
+                if(pro_config.getConfig().newPadsStatus == 'public')
+                {
+                    newStatus = 'allow';
+                }
+                
+                var deviations = pro_config.getConfig().newPadsStatusDeviation;
+                
+                deviations = deviations.split("\n");
+                
+                for(var linenumber in deviations)
+                {
+                    var deviation = trim(deviations[linenumber]);
+                    
+                    if(deviation.length>0)
+                    {
+                        if(padId.match(new RegExp(deviation)))
+                        {
+                            newStatus = (newStatus == 'deny' ? 'allow' : 'deny');
+                        }
+                    }
+                }
+                
+                data.padOptions.guestPolicy = newStatus;
+            }
+          } else if (data.padOptions.guestPolicy == 'ask') {
             data.padOptions.guestPolicy = (pro_utils.isProDomainRequest() && pro_config.getConfig().openByGuestsAllowed ? 'allow' : 'deny');
           }
           return data.padOptions;
