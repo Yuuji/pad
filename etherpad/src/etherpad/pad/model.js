@@ -404,10 +404,12 @@ function accessPadGlobal(padId, padFunc, rwMode) {
                     
                     if(deviation.length>0)
                     {
-                        if(padId.match(new RegExp(deviation)))
-                        {
-                            newStatus = (newStatus == 'deny' ? 'allow' : 'deny');
-                        }
+                        try {
+                            if(padId.match(new RegExp(deviation)))
+                            {
+                                newStatus = (newStatus == 'deny' ? 'allow' : 'deny');
+                            }
+                        } catch(e) { /* Just for incorrect regex */ }
                     }
                 }
                 
