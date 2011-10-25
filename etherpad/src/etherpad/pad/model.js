@@ -398,6 +398,8 @@ function accessPadGlobal(padId, padFunc, rwMode) {
                 
                 deviations = deviations.split("\n");
                 
+                var padTitle = padId.substr(padId.indexOf('$')+1);
+                
                 for(var linenumber in deviations)
                 {
                     var deviation = trim(deviations[linenumber]);
@@ -405,7 +407,7 @@ function accessPadGlobal(padId, padFunc, rwMode) {
                     if(deviation.length>0)
                     {
                         try {
-                            if(padId.match(new RegExp(deviation)))
+                            if(padTitle.match(new RegExp(deviation)))
                             {
                                 newStatus = (newStatus == 'deny' ? 'allow' : 'deny');
                             }
